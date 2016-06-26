@@ -5,7 +5,6 @@
 // If person i enters the house they will toggle the lights that are a multiple of i.
 // How many lights are on if N number of people enter the house?
 
-clear();
 var DEBUG = false;
 var formatLights = function(lights){
   return lights.map(x => x ? "on" : "off" ).join(', ')
@@ -21,7 +20,7 @@ var invitePeopleIn = function(lights){
   var people = lights.length;
   for(var person = 1; person <= people; person++){
     for(var currI = person; currI <= people; currI += person){
-      lights[currI] = !lights[currI];
+      lights[currI-1] = !lights[currI-1];
     }
     if(DEBUG){
       console.log("Lights after person %s: => %s", person, formatLights(lights));
@@ -30,7 +29,7 @@ var invitePeopleIn = function(lights){
   return lights;
 }
 var countLightsOn = function(lights){
-  return lights.filter(x => x).reduce((s, i) => s+i, 0)
+  return lights.filter(x => x).length;
 }
 var runRiddle = function(amountOfLights){
   var lights = createLights(amountOfLights);
@@ -40,5 +39,4 @@ var runRiddle = function(amountOfLights){
   console.log( "allLightsOn = ", allLightsOn);
 }
 
-clear();
-runRiddle(1000000);
+runRiddle(100);
