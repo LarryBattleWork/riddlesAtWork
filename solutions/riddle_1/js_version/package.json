@@ -1,0 +1,27 @@
+{
+  "name": "riddles_at_work_riddle_1",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Solves riddle 1: how many lights are on in a house after x people travel through toggling the switches",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LarryBattleWork/riddlesAtWork.git"
+  },
+  "keywords": [
+    "riddles"
+  ],
+  "author": "Larry Battle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LarryBattleWork/riddlesAtWork/issues"
+  },
+  "homepage": "https://github.com/LarryBattleWork/riddlesAtWork#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
