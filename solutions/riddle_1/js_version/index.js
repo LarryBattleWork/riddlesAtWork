@@ -11,11 +11,7 @@ var formatLights = function(lights){
   return lights.map(x => x ? "on" : "off" ).join(', ')
 };
 var createLights = function(amount){
-  var lights = [];
-  for(var i = 0; i < amount; i++){
-    lights.push(false);
-  }
-  return lights;
+  return Array(amount).fill(false);
 }
 var invitePeopleIn = function(lights){
   var people = lights.length;
