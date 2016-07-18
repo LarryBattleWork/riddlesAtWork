@@ -5,15 +5,37 @@
  * @author Larry Battle
  * */
 "use strict";
-var readline = require('readline');
+const readline = require('readline');
 
 // CLASSES
+
+class GameBoard {
+  constructor(){
+    this.position = '357';
+    this.moves = 0;
+  }
+  toString(){
+    return `The board is at ${this.position}`;
+  }
+  isValidMove(newPosition){
+    .
+  }
+  makeMove(pos){
+    if(this.isValidMove(pos)){
+      return false;
+    }
+    this.moves += 1;
+    this.position = pos;
+    return true;
+  }
+}
+
 class Player {
     constructor(name) {
         this.name = name;
     }
     toString() {
-        return "Player: " + this.name;
+        return `Player: ${this.name}`;
     }
     makeMove(board) {
 	throw new Error('Need to be implemented');
@@ -31,9 +53,9 @@ class HumanPlayer extends Player{
 }
 
 // Functions
-var getUserInput = (msg) => {
+const getUserInput = msg => {
     return new Promise((resolve, reject) => {
-        var rl = readline.createInterface({
+        const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
         });
@@ -43,41 +65,44 @@ var getUserInput = (msg) => {
         });
     });
 };
-var createUserPlayer = () => {
+const logError = function(){
+  console.error( "Error: " + JSON.stringify(arguments, null, 2) );
+};
+const createUserPlayer = () => {
     return getUserInput("What is the name of your player? ").then((name) => {
         return new HumanPlayer(name);
-    });
+    }).catch(logError);
 };
 
-var createRobotPlayer = () => {
+const createRobotPlayer = () => {
     return Promise.resolve(new RobotPlayer('Robot'));
 };
-var createGameBoard = () => {};
-var endGame = () => {};
+const createGameBoard = () => {};
+const endGame = () => {};
 
-var printIntro = () => {
+const printIntro = () => {
     console.log("Welcome to 357. Let's play!");
 };
-var main = () => {
+const playGame = (board, playerA, playerB) => {
+}
+const main = () => {
     printIntro();
     // pick player
-    var playerAPromise = createUserPlayer();
-    var playerB = createRobotPlayer();
+    const playerAPromise = createUserPlayer();
+    const playerB = createRobotPlayer();
 
     Promise.all([
         playerAPromise, playerB //, board 
-    ]).then((values) => {
-        console.log('Yo. Player A => %s~', values[0].toString());
-        console.log('Yo. Player B => %s~', values[1].toString());
-    }).catch((err) => {
-        console.log('Error:' + err);
-    });
+    ]).then((players) => {
+	const board = new GameBoard();
+	playGame( board, players.pop(), players.pop() );
+    }).catch(logError);
     //setTimeout(function(){ console.log('Timeout calledout'); }, 1000 * 5);
     /*
   // reset board
-  var board = createGameBoard();
+  const board = createGameBoard();
   // play game
-  var winner = playGame( board, playerA, playerB );
+  const winner = playGame( board, playerA, playerB );
   // alert winner
   endGame( winner );
   console.log( "%s won!" );
