@@ -1,32 +1,70 @@
 /**
  * Play 357
  * Uses es6 and nodejs 6.3+
+ * WARNING: Sh*t code
  * @date July 11, 2016
  * @author Larry Battle
  * */
 "use strict";
 const readline = require('readline');
+const gameStats = require("./gameStat.js");
+const isValidMove = gameStats.isValidMove;
+const gameGraph = gameStats.createGameGraph();
+
+// Utils
+const rArr = (arr) => {
+  return arr[Math.floor(arr.length*Math.random())];
+}
+
 
 // CLASSES
 
 class GameBoard {
   constructor(){
-    this.position = '357';
-    this.moves = 0;
+    this.reset();
   }
   toString(){
     return `The board is at ${this.position}`;
   }
   isValidMove(newPosition){
-    .
+    return isValidMove(this.position, newPosition);
   }
-  makeMove(pos){
-    if(this.isValidMove(pos)){
-      return false;
+  reset(){
+    this.players = [];
+    this.playerIndex = 0;
+    this.position = '357';
+    this.turns = 0;
+  }
+  incrementPlayerIndex(){
+    this.playerIndex = (1 + this.playerIndex ) % this.players.length;
+  }
+  getPosition(){
+    return this.position;
+  }
+  addPlayer(player){
+    this.players.push( player ); 
+  }
+  moveToPosition(pos){
+    if(!this.isValidMove(pos)){
+      throw new Error('Error: Invalid move ${pos}');
     }
-    this.moves += 1;
+    this.turns += 1;
     this.position = pos;
-    return true;
+    this.incrementPlayerIndex();
+  }
+  getPlayer(){
+  //  console.log( "players => ", JSON.stringify(this.players, null, 2) );
+  //  console.log( "playerIndex => ", this.playerIndex );
+    return this.players[this.playerIndex];
+  }
+  isGameOver(){
+    if(10 < this.turns){
+    	throw new Error( "BUG: Too many turns, ${this.turns}" );
+    }
+    return (/001|010|100/).test(this.position);
+  }
+  printStatus(){
+    console.log( this.toString() );
   }
 }
 
@@ -34,21 +72,27 @@ class Player {
     constructor(name) {
         this.name = name;
     }
+
     toString() {
         return `Player: ${this.name}`;
     }
-    makeMove(board) {
-	throw new Error('Need to be implemented');
-    }
 }
 class RobotPlayer extends Player{
-    makeMove(board) {
-	throw new Error('Need to be implemented');
+    getNextMove(pos){
+	var p = gameGraph.find( n => n.position === pos )
+	if(!p){
+	  throw new Error(`${pos} is an invalid MOVE!!??`);
+	}
+	var m = rArr(p.moves);
+	if(!m){
+	  throw new Error(`There were no moves found for ${pos}.`);
+	}
+	return Promise.resolve(m);
     }
 }
 class HumanPlayer extends Player{
-    makeMove(board) {
-	throw new Error('Need to be implemented');
+    getNextMove(pos){
+      return getUserInput(`What position after "${pos}"?`);
     }
 }
 
@@ -83,7 +127,21 @@ const endGame = () => {};
 const printIntro = () => {
     console.log("Welcome to 357. Let's play!");
 };
-const playGame = (board, playerA, playerB) => {
+const playGame = (board) => {
+  console.log("Playing game");
+  while(!board.isGameOver()){
+   board.printStatus();
+   console.log("Getting next player");
+   const p = board.getPlayer();
+   console.log("Got player: ", p);
+
+   !! Returns a promise
+   const newPosition = p.getNextMove( board.getPosition() ).then(move => next(move));
+   console.log("The player choiced to move to ", newPosition);
+   board.moveToPosition( newPosition );
+   console.log("Moved to that position");
+  }
+  console.log("Game complete");
 }
 const main = () => {
     printIntro();
@@ -91,11 +149,20 @@ const main = () => {
     const playerAPromise = createUserPlayer();
     const playerB = createRobotPlayer();
 
+    console.log("Waiting on robot and user creation");
     Promise.all([
         playerAPromise, playerB //, board 
     ]).then((players) => {
-	const board = new GameBoard();
-	playGame( board, players.pop(), players.pop() );
+	console.log("Creating gameboard");
+	var board = new GameBoard();
+	var playerA = players.pop();
+	var playerB = players.pop();
+	console.log( "playerA => ", playerA );
+	console.log( "playerB => ", playerB );
+	board.addPlayer( playerA );
+	board.addPlayer( playerB );
+	console.log( "board.players => ", board.players );
+	playGame( board );
     }).catch(logError);
     //setTimeout(function(){ console.log('Timeout calledout'); }, 1000 * 5);
     /*

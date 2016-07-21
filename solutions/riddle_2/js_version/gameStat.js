@@ -89,6 +89,7 @@ const tests = function(){
   console.log( "## Test complete" );
 };
 //tests();
-printGameStatus();
+//printGameStatus();
 
 exports.createGameGraph = createGameGraph;
+exports.isValidMove = isValidMove;
