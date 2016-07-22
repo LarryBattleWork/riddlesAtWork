@@ -29,6 +29,9 @@ const isValidMove = function(currentPosition, newPosition){
   if( currentPosition.length !== newPosition.length ){
     return false;
   }
+  if('000' === currentPosition){
+    return false;
+  }
   if( typeof currentPosition !== 'string' || typeof newPosition !== 'string' ){
     throw new Error('isValidMove() only accepts strings.');
   }
