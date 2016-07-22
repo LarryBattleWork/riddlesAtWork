@@ -32,10 +32,10 @@
             return `The board is at ${this.position}`;
         }
         reset() {
+            this.moves = [];
             this.players = [];
             this.playerIndex = 0;
             this.position = '357';
-            this.turns = 0;
         }
 
         addPlayer(player) {
@@ -48,6 +48,9 @@
             this.playerIndex = (1 + this.playerIndex) % this.players.length;
         }
 
+        get turns() {
+            return this.moves.length;
+        }
         isValidMove(newPosition) {
             return isValidMove(this.position, newPosition);
         }
@@ -58,26 +61,25 @@
             if (!this.isValidMove(pos)) {
                 throw new Error(`${pos} is not a valid move.`);
             }
-            this.turns += 1;
+            this.moves.push(pos);
             this.position = pos;
             this.incrementPlayerIndex();
         }
+        processPlayersMove(move) {
+            try {
+                this.moveToPosition(move);
+                console.log(`+ Action ${this.turns}) Moved to ${move} - ${this.player.name}.`);
+            } catch (e) {
+                console.error(`- ${e}`);
+            }
+            if (this.isGameOver()) {
+                this.endGame();
+            } else {
+                this.getMoveFromCurrentPlayer();
+            }
+        }
         getMoveFromCurrentPlayer() {
-            const p = this.player;
-            var self = this;
-            p.getNextMove(this.getPosition()).then(move => {
-                try {
-                    self.moveToPosition(move);
-                    console.log(`+ Step ${self.turns}) Moved to ${move} - ${p.name}.`);
-                } catch (e) {
-                    console.error(`- ${e}`);
-                }
-                if (self.isGameOver()) {
-                    self.endGame();
-                } else {
-                    self.getMoveFromCurrentPlayer();
-                }
-            });
+            this.player.getNextMove(this.getPosition()).then(this.processPlayersMove.bind(this));
         }
 
         endGame() {
