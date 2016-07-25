@@ -1,18 +1,21 @@
 "use strict";
+declare const require;
+declare const process;
+declare const Promise;
 
 const readline = require("readline");
 
-const Utils = {};
-Utils.rNum = l => {
+let Utils = {
+    rNum : l => {
     return Math.floor(Math.random() * l);
-};
-Utils.rArr = arr => {
+},
+rArr : arr => {
     return arr[Utils.rNum(arr.length)];
-};
-Utils.shuffleArray = arr => {
+},
+shuffleArray : arr => {
     return arr.sort(_ => 0.5 - Math.random());
-};
-Utils.getUserInput = msg => {
+},
+getUserInput : msg => {
     return new Promise((resolve, reject) => {
         const rl = readline.createInterface({
             input: process.stdin,
@@ -23,6 +26,7 @@ Utils.getUserInput = msg => {
             resolve(answer);
         });
     });
+}
 };
 
-exports.Utils = Utils;
+export = Utils;

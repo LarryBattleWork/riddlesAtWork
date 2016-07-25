@@ -96,5 +96,4 @@ const tests = function () {
 //tests();
 //printGameStatus();
 
-exports.createGameGraph = createGameGraph;
-exports.isValidMove = isValidMove;
+export { createGameGraph, isValidMove };

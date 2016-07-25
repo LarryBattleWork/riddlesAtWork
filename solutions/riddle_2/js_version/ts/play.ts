@@ -7,17 +7,19 @@
 /*jshint esversion: 6 */
 "use strict";
 
-const GameBoard = require("./GameBoard.js").GameBoard;
-const Utils = require("./Utils.js").Utils;
-const RobotPlayer = require("./RobotPlayer.js").RobotPlayer;
-const HumanPlayer = require("./HumanPlayer.js").HumanPlayer;
+declare const Promise;
+
+import GameBoard = require("./GameBoard.js");
+import Utils = require("./Utils.js");
+import RobotPlayer = require("./RobotPlayer.js");
+import HumanPlayer = require("./HumanPlayer.js");
 
 // Functions
 const logError = function (e) {
     console.log('There was an Error. ' + e);
 };
 const createUserPlayer = () => {
-    return getUserInput("What is the name of your player? ").then(name => {
+    return Utils.getUserInput("What is the name of your player? ").then((name : string) => {
         return new HumanPlayer(name);
     }).catch(logError);
 };
@@ -36,8 +38,10 @@ const playGame = board => {
 const main = () => {
     printIntro();
     Promise.all([
-    //createUserPlayer(),
-    createRobotPlayer(), createRobotPlayer()]).then(players => {
+    createUserPlayer(),
+    createUserPlayer()
+   // createRobotPlayer(), createRobotPlayer()
+    ]).then(players => {
         var board = new GameBoard();
         Utils.shuffleArray(players).forEach((player, i) => {
             console.log(`Player ${ 1 + i }: ${ player.name }`);

@@ -1,8 +1,9 @@
 "use strict";
+declare const Promise;
 
-const Utils = require("./Utils.js").Utils;
-const gameGraph = require("./gameStat.js").createGameGraph();
-const Player = require("./Player.js").Player;
+import Utils = require("./Utils.ts");
+import gameGraph = require("./gameStat.ts").createGameGraph();
+import Player = require("./Player.ts").Player;
 
 class RobotPlayer extends Player {
    getNextMove(pos) {
@@ -20,4 +21,4 @@ class RobotPlayer extends Player {
    }
 }
 
-exports.RobotPlayer = RobotPlayer;
+export = RobotPlayer;

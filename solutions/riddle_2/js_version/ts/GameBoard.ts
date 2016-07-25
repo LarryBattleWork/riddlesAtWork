@@ -5,9 +5,8 @@
 /*jshint esversion: 6 */
 "use strict";
 
-const readline = require('readline');
-const gameStats = require("./gameStat.js");
-const isValidMove = gameStats.isValidMove;
+import readline = require('readline');
+import {isValidMove, gameStats} = require("./gameStat.ts");
 const gameGraph = gameStats.createGameGraph();
 
 class GameBoard {
@@ -45,7 +44,7 @@ class GameBoard {
     }
     moveToPosition(pos) {
         if (!this.isValidMove(pos)) {
-            throw new Error(`${ pos } is not a valid move.`);
+            throw new Error(`${ (pos||'').substring(0,3) } is not a valid move.`);
         }
         this.moves.push(pos);
         this.position = pos;
