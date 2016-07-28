@@ -6,10 +6,17 @@
 "use strict";
 
 import readline = require('readline');
-import {isValidMove, gameStats} = require("./gameStat.ts");
-const gameGraph = gameStats.createGameGraph();
+import {isValidMove, createGameGraph} from './gameStat';
 
-class GameBoard {
+const gameGraph = createGameGraph();
+
+export default class GameBoard {
+    
+    moves = [];
+    players = [];
+    playerIndex = 0;
+    position = '357';
+
     constructor() {
         this.reset();
     }
@@ -82,4 +89,3 @@ class GameBoard {
         console.log(this.toString());
     }
 }
-exports.GameBoard = GameBoard;

@@ -9,10 +9,10 @@
 
 declare const Promise;
 
-import GameBoard = require("./GameBoard.js");
-import Utils = require("./Utils.js");
-import RobotPlayer = require("./RobotPlayer.js");
-import HumanPlayer = require("./HumanPlayer.js");
+import GameBoard from "./GameBoard";
+import Utils from "./Utils";
+import RobotPlayer from "./RobotPlayer";
+import HumanPlayer from "./HumanPlayer";
 
 // Functions
 const logError = function (e) {

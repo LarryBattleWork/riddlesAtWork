@@ -1,6 +1,9 @@
 "use strict";
 
-class Player {
+export default class Player {
+    
+    name: string
+
     constructor(name) {
         this.name = name;
     }
@@ -9,5 +12,3 @@ class Player {
         return `Player: ${ this.name }`;
     }
 }
-
-exports.Player = Player;
