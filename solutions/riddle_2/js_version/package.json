@@ -5,12 +5,10 @@
   "description": "Player 357",
   "main": "index.js",
   "scripts": {
-    "build": "babel src -d lib",
+    "start" : "node index.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Larry Battle",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.11.4"
-  }
+  "license": "MIT"
 }

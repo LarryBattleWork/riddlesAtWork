@@ -35,12 +35,11 @@ const playGame = board => {
     board.printStatus();
     board.getMoveFromCurrentPlayer();
 };
-const main = () => {
+const run = () => {
     printIntro();
     Promise.all([
-    createUserPlayer(),
-    createUserPlayer()
-   // createRobotPlayer(), createRobotPlayer()
+        createUserPlayer(),
+        createRobotPlayer()
     ]).then(players => {
         var board = new GameBoard();
         Utils.shuffleArray(players).forEach((player, i) => {
@@ -50,4 +49,4 @@ const main = () => {
         playGame(board);
     }).catch(logError);
 };
-main();
+export {run};

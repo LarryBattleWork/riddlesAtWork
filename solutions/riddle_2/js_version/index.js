@@ -1,1 +1,3 @@
-console.error("Look inside lib!");
+var play = require("./src/play.js");
+play.run();
+
