@@ -7,7 +7,9 @@
 var gameStat_1 = require('./gameStat');
 var gameGraph = gameStat_1.createGameGraph();
 var GameBoard = (function () {
-    function GameBoard() {
+    function GameBoard(onlyShowMoves) {
+        if (onlyShowMoves === void 0) { onlyShowMoves = false; }
+        this.onlyShowMoves = onlyShowMoves;
         this.moves = [];
         this.players = [];
         this.playerIndex = 0;
@@ -60,10 +62,14 @@ var GameBoard = (function () {
     GameBoard.prototype.processPlayersMove = function (move) {
         try {
             this.moveToPosition(move);
-            console.log("+ Action " + this.turns + ") Moved to " + move + " - " + this.player.name + ".");
+            if (!this.onlyShowMoves) {
+                console.log("+ Action " + this.turns + ") Moved to " + move + " - " + this.player.name + ".");
+            }
         }
         catch (e) {
-            console.error("- " + e);
+            if (!this.onlyShowMoves) {
+                console.error("- " + e);
+            }
         }
         if (this.isGameOver()) {
             this.endGame();
@@ -76,8 +82,18 @@ var GameBoard = (function () {
         this.player.getNextMove(this.getPosition()).then(this.processPlayersMove.bind(this));
     };
     GameBoard.prototype.endGame = function () {
-        console.log(this.player.name + " lost the game in " + this.turns + " turns.");
-        console.log('Game Over.');
+        if (this.onlyShowMoves) {
+            var o = {
+                date: new Date(),
+                moves: this.moves,
+                turns: this.turns
+            };
+            console.log(JSON.stringify(o));
+        }
+        else {
+            console.log(this.player.name + " lost the game in " + this.turns + " turns.");
+            console.log('Game Over.');
+        }
     };
     GameBoard.prototype.isGameOver = function () {
         if (20 < this.turns) {

@@ -26,18 +26,19 @@ var printIntro = function () {
     console.log("Welcome to 357. Let's play!");
 };
 var playGame = function (board) {
-    board.printStatus();
+    //board.printStatus();
     board.getMoveFromCurrentPlayer();
 };
 var run = function () {
-    printIntro();
+    //printIntro();
     Promise.all([
-        createUserPlayer(),
+        //createUserPlayer(),
+        createRobotPlayer(),
         createRobotPlayer()
     ]).then(function (players) {
-        var board = new GameBoard_1.default();
+        var board = new GameBoard_1.default(true);
         Utils_1.default.shuffleArray(players).forEach(function (player, i) {
-            console.log("Player " + (1 + i) + ": " + player.name);
+            //console.log(`Player ${ 1 + i }: ${ player.name }`);
             board.addPlayer(player);
         });
         playGame(board);

@@ -11,23 +11,23 @@ import {isValidMove, createGameGraph} from './gameStat';
 const gameGraph = createGameGraph();
 
 export default class GameBoard {
-    
+    initPosition = '357'
     moves = [];
     players = [];
     playerIndex = 0;
-    position = '357';
+    position = '';
 
-    constructor() {
+    constructor(public onlyShowMoves:boolean = false) {
         this.reset();
     }
     toString() {
         return `The board is at ${ this.position }`;
     }
     reset() {
-        this.moves = [];
         this.players = [];
         this.playerIndex = 0;
-        this.position = '357';
+        this.position = this.initPosition.toString();
+        this.moves = [this.position];
     }
 
     addPlayer(player) {
@@ -41,7 +41,7 @@ export default class GameBoard {
     }
 
     get turns() {
-        return this.moves.length;
+        return this.moves.length - 1;
     }
     isValidMove(newPosition) {
         return isValidMove(this.position, newPosition);
@@ -60,9 +60,13 @@ export default class GameBoard {
     processPlayersMove(move) {
         try {
             this.moveToPosition(move);
-            console.log(`+ Action ${ this.turns }) Moved to ${ move } - ${ this.player.name }.`);
+            if( !this.onlyShowMoves ){
+                console.log(`+ Action ${ this.turns }) Moved to ${ move } - ${ this.player.name }.`);
+            }
         } catch (e) {
-            console.error(`- ${ e }`);
+            if( !this.onlyShowMoves ){
+                console.error(`- ${ e }`);
+            }
         }
         if (this.isGameOver()) {
             this.endGame();
@@ -75,8 +79,18 @@ export default class GameBoard {
     }
 
     endGame() {
-        console.log(`${ this.player.name } lost the game in ${ this.turns } turns.`);
-        console.log('Game Over.');
+        if( this.onlyShowMoves ){
+            const o = {
+                date: new Date(),
+                moves : this.moves,
+                turns : this.turns
+            //    lost: this.player.name
+            }
+            console.log(JSON.stringify(o));
+        }else{
+            console.log(`${ this.player.name } lost the game in ${ this.turns } turns.`);
+            console.log('Game Over.');
+        }
     }
 
     isGameOver() {

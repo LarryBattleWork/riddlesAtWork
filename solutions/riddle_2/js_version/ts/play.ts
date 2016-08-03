@@ -32,18 +32,19 @@ const printIntro = () => {
     console.log("Welcome to 357. Let's play!");
 };
 const playGame = board => {
-    board.printStatus();
+    //board.printStatus();
     board.getMoveFromCurrentPlayer();
 };
 const run = () => {
-    printIntro();
+    //printIntro();
     Promise.all([
-        createUserPlayer(),
+    //createUserPlayer(),
+        createRobotPlayer(),
         createRobotPlayer()
     ]).then(players => {
-        var board = new GameBoard();
+        var board = new GameBoard(true);
         Utils.shuffleArray(players).forEach((player, i) => {
-            console.log(`Player ${ 1 + i }: ${ player.name }`);
+            //console.log(`Player ${ 1 + i }: ${ player.name }`);
             board.addPlayer(player);
         });
         playGame(board);
