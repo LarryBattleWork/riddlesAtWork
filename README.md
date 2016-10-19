@@ -22,3 +22,10 @@ Each person has to take turns picking up apples from only one pile at a time.
 On a player's turn, they can pick up any positive value of the remaining apples in one pile.
 
 What's the best strategy to win the most games?
+
+## Riddle 3:
+From: https://puzzling.stackexchange.com/questions/43923/we-are-5-different-numbers
+There 5 different positive integer numbers smaller than 100.
+The product of us is an odd number.
+The product of us is a cube number.
+The sum of us is a cube number.
