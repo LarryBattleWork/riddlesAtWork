@@ -25,7 +25,12 @@ What's the best strategy to win the most games?
 
 ## Riddle 3:
 From: https://puzzling.stackexchange.com/questions/43923/we-are-5-different-numbers
+
 There 5 different positive integer numbers smaller than 100.
 The product of us is an odd number.
 The product of us is a cube number.
 The sum of us is a cube number.
+
+## Riddle 4:
+If you roll two fair six-sided dice, what is the probability that the sum is 9 or higher?
+Simulate the environment to compute it the value.
